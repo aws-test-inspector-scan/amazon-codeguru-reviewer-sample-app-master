@@ -116,11 +116,11 @@ public class EventHandler implements RequestHandler<ScheduledEvent, String> {
     }
 
     private List<KeyVersion> processEventsInBucket(String bucketName, LambdaLogger logger, Map<String, Pair<Long, String>> latestStatusForTrackingNumber) {
-        final AmazonS3 s3Client = EventHandler.getS3Client();
-        logger.log("Processing Bucket: " + bucketName);
-
-        ObjectListing files = s3Client.listObjects(bucketName);
-        List<KeyVersion> filesProcessed = new ArrayList<DeleteObjectsRequest.KeyVersion>();
+            final AmazonS3 s3Client = EventHandler.getS3Client();
+            logger.log("Processing Bucket: " + bucketName);
+    
+            ObjectListing files = s3Client.listObjects(bucketName);
+            List<KeyVersion> filesProcessed = new ArrayList<DeleteObjectsRequest.KeyVersion>();
 
         for (Iterator<?> iterator = files.getObjectSummaries().iterator(); iterator.hasNext(); ) {
             S3ObjectSummary summary = (S3ObjectSummary) iterator.next();
