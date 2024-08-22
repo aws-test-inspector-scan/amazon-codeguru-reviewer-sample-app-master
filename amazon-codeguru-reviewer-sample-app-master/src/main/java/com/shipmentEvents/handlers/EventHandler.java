@@ -116,18 +116,18 @@ public class EventHandler implements RequestHandler<ScheduledEvent, String> {
     }
 
     private List<KeyVersion> processEventsInBucket(String bucketName, LambdaLogger logger, Map<String, Pair<Long, String>> latestStatusForTrackingNumber) {
-        final AmazonS3 s3Client = EventHandler.getS3Client();
-        logger.log("Processing Bucket: " + bucketName);
-
-        ObjectListing files = s3Client.listObjects(bucketName);
-        List<KeyVersion> filesProcessed = new ArrayList<DeleteObjectsRequest.KeyVersion>();
-
-        for (Iterator<?> iterator = files.getObjectSummaries().iterator(); iterator.hasNext(); ) {
-            S3ObjectSummary summary = (S3ObjectSummary) iterator.next();
-            logger.log("Reading Object: " + summary.getKey());
-
-            String trackingNumber = summary.getKey().split("--")[0];
-            Pair<Long, String> lastKnownStatus = latestStatusForTrackingNumber.get(trackingNumber);
+            final AmazonS3 s3Client = EventHandler.getS3Client();
+            logger.log("Processing Bucket: " + bucketName);
+    
+            ObjectListing files = s3Client.listObjects(bucketName);
+            List<KeyVersion> filesProcessed = new ArrayList<DeleteObjectsRequest.KeyVersion>();
+    
+            for (Iterator<?> iterator = files.getObjectSummaries().iterator(); iterator.hasNext(); ) {
+                S3ObjectSummary summary = (S3ObjectSummary) iterator.next();
+                logger.log("Reading Object: " + summary.getKey());
+    
+                String trackingNumber = summary.getKey().split("--")[0];
+                Pair<Long, String> lastKnownStatus = latestStatusForTrackingNumber.get(trackingNumber);
 
             // Check if this shipment has already been delivered, skip this file
             if (lastKnownStatus != null && "DELIVERED".equals(lastKnownStatus.getRight())) {
