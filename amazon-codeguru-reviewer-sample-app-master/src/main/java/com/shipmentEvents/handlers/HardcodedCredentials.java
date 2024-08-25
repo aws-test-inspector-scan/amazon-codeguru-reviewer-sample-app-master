@@ -11,12 +11,12 @@ import java.sql.DriverManager;
 public class HardcodedCredentials {
 
     // {fact rule=hardcoded-credentials@v1.0 defects=1}
-    public void createSqlConnectionNoncompliant() throws Exception {
-        // Noncompliant: password is hardcoded.
-        final Connection connection = DriverManager.getConnection("some url",
-                "username", "password");
-        connection.close();
-    }
+        public void createSqlConnectionNoncompliant() throws Exception {
+            // Noncompliant: password is hardcoded.
+            final Connection connection = DriverManager.getConnection("some url",
+                    "username", "password");
+            connection.close();
+        }
     // {/fact}
 
     // {fact rule=hardcoded-credentials@v1.0 defects=0}
